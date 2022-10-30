@@ -48,9 +48,14 @@ if streamlit.button("Get Fruit List!") :
   streamlit.text("Fruit Load list:")
   streamlit.dataframe(getAllFruitList())
 
-streamlit.stop()
+def insertFruit(fruit_name):
+   with my_cnx.cursor() as my_cur:
+      my_cur.execute("insert into fruit_load_list values ('" + fruit_name +"')")
+      return streamlit.text('Thanks for adding fruit: ' + fruit_name)
+
 streamlit.header("Adding Fruit!")
 fruit_choice = streamlit.text_input('What fruit would you like to add?')
-streamlit.write('The user entered ', fruit_choice)
-streamlit.text("Thank you for adding fruit: " + fruit_choice)
-my_cur.execute("insert into fruit_load_list values ('from streamlit!!!')")
+if streamlit.button('Add new fruit'): 
+  streamlit.write('Adding New fruit ', fruit_choice)
+  streamlit.text(insertFruit(fruit_choice))
+
